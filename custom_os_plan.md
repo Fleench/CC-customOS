@@ -17,6 +17,9 @@ The planned load order is:
 7. **`06_net.lua`**: Network sandbox. Intercepts `rednet` and requires a `net` capability token.
 8. **`07_hw.lua`**: Hardware sandbox. Intercepts `peripheral.wrap` and `peripheral.find`, requiring specific tokens (e.g., `hw:disk`, `hw:modem`) for dangerous hardware.
 
+### System Initialization (`init.lua`)
+Once the kernel modules are loaded, the bootloader will hand off execution to `/sys/init.lua`. This acts as the session manager and dynamically decides what userland environment to launch based on configuration (e.g., standard CLI `shell`, the `CANVAS` GUI, or a headless background process).
+
 ## 2. Capability-Based Security & Syscalls
 The OS replaces standard security models with a capability token system.
 
