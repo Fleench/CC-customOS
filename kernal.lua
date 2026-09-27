@@ -129,15 +129,15 @@ for name, func in pairs(overrides) do
     fs[name] = func
 end
 
-print("Kernel: sandbox ready, launching init...")
+print("Kernel: sandbox ready, launching shell...")
 shell.setDir("/root")
 shell.run("clear")
-local init_perms = {
+local shell_perms = {
     protected_files = master_perms.protected_files
 }
-local init_env = setmetatable({
-    PERMS = init_perms
+local shell_env = setmetatable({
+    PERMS = shell_perms
 }, { __index = _G })
-os.run(init_env, "/sys/init.lua")
-print("Kernel: init system exited.")
+os.run(shell_env, "/sys/shell.lua")
+print("Kernel: shell exited.")
 shell.run("shutdown")
