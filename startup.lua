@@ -1,1 +1,1 @@
-shell.run("kernal.lua")
+shell.run("kernel.lua")
