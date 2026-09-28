@@ -10,18 +10,19 @@ The GUI ecosystem is divided into four distinct components, separating the rende
 * **Function:** Draws pixels, renders basic UI elements (buttons, text), and captures mouse/keyboard events.
 
 ### Layer 2: WIMP (Window Interface & Multishell Protocol)
-* **Role:** The Custom Shell and Tab Manager.
-* **Function:** WIMP replaces the native CC:Tweaked shell and `multishell`. It is the full custom shell environment that handles:
-  * **Tab Management:** Spawning and switching between different environment tabs.
-  * **Security Integration:** Hooks deeply into the kernel capability system to pause background processes or switch security contexts.
-  * **System Prompts:** Standardized security dialogs (e.g., capability token requests like "App X wants to access hw:disk") drawn securely above the tabs.
+* **Role:** The Custom Shell and Compositor.
+* **Function:** WIMP replaces the native CC:Tweaked shell and `multishell`. Built using Basalt, it acts as the underlying compositor that handles:
+  * **Tab Management:** Exposes functions to request a new tab to be opened and manages switching between them.
+  * **Panel Drawing:** Exposes functions for drawing global panels/overlays (like a top bar or dock).
+  * **Security Integration:** Hooks deeply into the kernel capability system to pause background processes and securely draw system-level approval prompts over the active tab.
 
 ### Layer 3: ATMIN (All The Menus I Need)
-* **Role:** The persistent App Launcher and System Menu.
+* **Role:** The Persistent System Menu.
 * **Function:** 
-  * Acts as an always-there, persistent menu (similar to an Android home screen or OpusOS launcher).
-  * Tied deeply into WIMP, serving as the primary way users launch new tabs or access system settings.
+  * Acts as the main app launcher and system menu.
+  * ATMIN draws *on top* of WIMP (utilizing WIMP's panel/overlay drawing functions).
   * Parses installed app manifests (via the Package Manager) to display icons and required capability tokens.
+  * Uses WIMP's functions to request a new tab whenever the user launches an application.
 
 ### Layer 4: CANVAS (The Window Manager App)
 * **Role:** The desktop workspace app.
